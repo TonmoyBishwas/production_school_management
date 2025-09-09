@@ -1,0 +1,252 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Organization {
+  id         String   @id @default(cuid())
+  name       String
+  createdAt  DateTime @default(now()) @map("created_at")
+  status     String   @default("active")
+  schools    School[]
+
+  @@map("organizations")
+}
+
+model School {
+  id                String   @id @default(cuid())
+  orgId             String   @map("org_id")
+  name              String
+  address           String?
+  phone             String?
+  email             String?
+  adminUsername     String   @unique @map("admin_username")
+  adminPasswordHash String   @map("admin_password_hash")
+  createdAt         DateTime @default(now()) @map("created_at")
+  
+  organization      Organization       @relation(fields: [orgId], references: [id])
+  users             User[]
+  students          Student[]
+  teachers          Teacher[]
+  parents           Parent[]
+  attendance        Attendance[]
+  schedules         Schedule[]
+  subjects          Subject[]
+  academicCalendar  AcademicCalendar[]
+  exams             Exam[]
+  homework          Homework[]
+  studentPhotos     StudentPhoto[]
+
+  @@map("schools")
+}
+
+model User {
+  id           String   @id @default(cuid())
+  schoolId     String   @map("school_id")
+  role         String   // superadmin, admin, teacher, student, parent, accountant
+  username     String   @unique
+  passwordHash String   @map("password_hash")
+  firstName    String   @map("first_name")
+  lastName     String   @map("last_name")
+  email        String?
+  phone        String?
+  createdAt    DateTime @default(now()) @map("created_at")
+  
+  school       School    @relation(fields: [schoolId], references: [id])
+  student      Student?
+  teacher      Teacher?
+  parent       Parent?
+
+  @@map("users")
+}
+
+model Student {
+  id            String     @id @default(cuid())
+  userId        String     @unique @map("user_id")
+  schoolId      String     @map("school_id")
+  studentId     String     @unique @map("student_id")
+  grade         Int
+  section       String
+  bloodGroup    String     @map("blood_group")
+  dob           DateTime
+  admissionDate DateTime   @map("admission_date")
+  parentId      String?    @map("parent_id")
+  
+  user          User       @relation(fields: [userId], references: [id])
+  school        School     @relation(fields: [schoolId], references: [id])
+  parent        Parent?    @relation(fields: [parentId], references: [id])
+  attendance    Attendance[]
+  grades        Grade[]
+  photos        StudentPhoto[]
+
+  @@map("students")
+}
+
+model Teacher {
+  id         String     @id @default(cuid())
+  userId     String     @unique @map("user_id")
+  schoolId   String     @map("school_id")
+  teacherId  String     @unique @map("teacher_id")
+  subjects   Json       // Array of subject IDs
+  hireDate   DateTime   @map("hire_date")
+  
+  user       User       @relation(fields: [userId], references: [id])
+  school     School     @relation(fields: [schoolId], references: [id])
+  attendance Attendance[]
+  schedules  Schedule[]
+  homework   Homework[]
+  grades     Grade[]
+
+  @@map("teachers")
+}
+
+model Parent {
+  id         String    @id @default(cuid())
+  userId     String    @unique @map("user_id")
+  schoolId   String    @map("school_id")
+  address    String?
+  occupation String?
+  
+  user       User      @relation(fields: [userId], references: [id])
+  school     School    @relation(fields: [schoolId], references: [id])
+  students   Student[]
+
+  @@map("parents")
+}
+
+model Attendance {
+  id        String   @id @default(cuid())
+  schoolId  String   @map("school_id")
+  studentId String   @map("student_id")
+  teacherId String   @map("teacher_id")
+  subjectId String   @map("subject_id")
+  date      DateTime
+  period    Int
+  status    String   // present, absent, late
+  markedAt  DateTime @map("marked_at")
+  
+  school    School   @relation(fields: [schoolId], references: [id])
+  student   Student  @relation(fields: [studentId], references: [id])
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+
+  @@map("attendance")
+}
+
+model Schedule {
+  id        String   @id @default(cuid())
+  schoolId  String   @map("school_id")
+  grade     Int
+  section   String
+  day       String
+  periodNum Int      @map("period_num")
+  startTime String   @map("start_time")
+  endTime   String   @map("end_time")
+  subjectId String   @map("subject_id")
+  teacherId String   @map("teacher_id")
+  
+  school    School   @relation(fields: [schoolId], references: [id])
+  subject   Subject  @relation(fields: [subjectId], references: [id])
+  teacher   Teacher  @relation(fields: [teacherId], references: [id])
+
+  @@map("schedules")
+}
+
+model Subject {
+  id         String     @id @default(cuid())
+  schoolId   String     @map("school_id")
+  name       String
+  code       String
+  gradeLevel Int        @map("grade_level")
+  
+  school     School     @relation(fields: [schoolId], references: [id])
+  schedules  Schedule[]
+  attendance Attendance[]
+  exams      Exam[]
+  homework   Homework[]
+
+  @@map("subjects")
+}
+
+model AcademicCalendar {
+  id          String   @id @default(cuid())
+  schoolId    String   @map("school_id")
+  eventType   String   @map("event_type") // holiday, exam, meeting, term
+  name        String
+  startDate   DateTime @map("start_date")
+  endDate     DateTime @map("end_date")
+  startTime   String?  @map("start_time")
+  endTime     String?  @map("end_time")
+  description String?
+  
+  school      School   @relation(fields: [schoolId], references: [id])
+
+  @@map("academic_calendar")
+}
+
+model Exam {
+  id          String   @id @default(cuid())
+  schoolId    String   @map("school_id")
+  name        String
+  grade       Int
+  subjectId   String   @map("subject_id")
+  date        DateTime
+  startTime   String   @map("start_time")
+  endTime     String   @map("end_time")
+  totalMarks  Int      @map("total_marks")
+  
+  school      School   @relation(fields: [schoolId], references: [id])
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+  grades      Grade[]
+
+  @@map("exams")
+}
+
+model Grade {
+  id            String   @id @default(cuid())
+  studentId     String   @map("student_id")
+  examId        String   @map("exam_id")
+  marksObtained Int      @map("marks_obtained")
+  gradedBy      String   @map("graded_by")
+  gradedAt      DateTime @map("graded_at")
+  
+  student       Student  @relation(fields: [studentId], references: [id])
+  exam          Exam     @relation(fields: [examId], references: [id])
+  teacher       Teacher  @relation(fields: [gradedBy], references: [id])
+
+  @@map("grades")
+}
+
+model Homework {
+  id          String   @id @default(cuid())
+  schoolId    String   @map("school_id")
+  teacherId   String   @map("teacher_id")
+  grade       Int
+  section     String
+  subjectId   String   @map("subject_id")
+  title       String
+  description String?
+  dueDate     DateTime @map("due_date")
+  assignedAt  DateTime @default(now()) @map("assigned_at")
+  
+  school      School   @relation(fields: [schoolId], references: [id])
+  teacher     Teacher  @relation(fields: [teacherId], references: [id])
+  subject     Subject  @relation(fields: [subjectId], references: [id])
+
+  @@map("homework")
+}
+
+model StudentPhoto {
+  id          String  @id @default(cuid())
+  studentId   String  @map("student_id")
+  photoPath   String  @map("photo_path")
+  photoNumber Int     @map("photo_number")
+  
+  student     Student @relation(fields: [studentId], references: [id])
+
+  @@map("student_photos")
+}
