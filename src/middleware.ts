@@ -16,6 +16,7 @@ export function middleware(request: NextRequest) {
     pathname === '/test-middleware' ||
     pathname === '/debug' ||
     pathname === '/debug-auth' ||
+    pathname === '/api-test' ||
     pathname === '/test-simple' ||
     pathname.startsWith('/api/auth/login') ||
     pathname.startsWith('/api/test-token')
