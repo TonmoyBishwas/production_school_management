@@ -11,6 +11,10 @@ export function middleware(request: NextRequest) {
     pathname.startsWith('/static') ||
     pathname === '/login' ||
     pathname === '/' ||
+    pathname === '/simple-login' ||
+    pathname === '/test-login' ||
+    pathname === '/debug' ||
+    pathname === '/test-simple' ||
     pathname.startsWith('/api/auth/login')
   ) {
     return NextResponse.next();
