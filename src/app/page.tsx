@@ -7,19 +7,44 @@ export default function Home() {
   const router = useRouter();
 
   useEffect(() => {
-    // Check if user is logged in
-    const token = localStorage.getItem('token');
-    if (token) {
-      // Redirect based on role - this will be improved later
-      router.push('/superadmin');
-    } else {
+    // Simple redirect to login after a short delay
+    const timer = setTimeout(() => {
       router.push('/login');
-    }
+    }, 1000);
+
+    return () => clearTimeout(timer);
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-      <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary"></div>
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: '#f9fafb',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      flexDirection: 'column'
+    }}>
+      <div style={{
+        width: '64px',
+        height: '64px',
+        border: '4px solid #e5e7eb',
+        borderTop: '4px solid #3b82f6',
+        borderRadius: '50%',
+        animation: 'spin 1s linear infinite'
+      }}></div>
+      <p style={{
+        marginTop: '16px',
+        color: '#6b7280',
+        fontSize: '14px'
+      }}>
+        Loading School Management System...
+      </p>
+      <style jsx>{`
+        @keyframes spin {
+          0% { transform: rotate(0deg); }
+          100% { transform: rotate(360deg); }
+        }
+      `}</style>
     </div>
   );
 }
