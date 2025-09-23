@@ -2,8 +2,7 @@
 
 import React, { useState, useEffect } from 'react';
 import Navbar from '@/components/Navbar';
-import Card from '@/components/Card';
-import Button from '@/components/Button';
+// Removed custom components - using standard HTML instead
 import Table from '@/components/Table';
 
 interface School {
@@ -103,47 +102,52 @@ export default function SuperadminDashboard() {
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <Card testId="stats-schools">
+          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6" data-testid="stats-schools">
             <div className="text-center">
-              <div className="text-3xl font-bold text-primary" data-testid="total-schools">
+              <div className="text-3xl font-bold text-blue-600" data-testid="total-schools">
                 {stats.totalSchools}
               </div>
               <div className="text-sm text-gray-600 mt-1">Total Schools</div>
             </div>
-          </Card>
+          </div>
 
-          <Card testId="stats-students">
+          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6" data-testid="stats-students">
             <div className="text-center">
-              <div className="text-3xl font-bold text-success" data-testid="total-students">
+              <div className="text-3xl font-bold text-green-600" data-testid="total-students">
                 {stats.totalStudents}
               </div>
               <div className="text-sm text-gray-600 mt-1">Total Students</div>
             </div>
-          </Card>
+          </div>
 
-          <Card testId="stats-teachers">
+          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6" data-testid="stats-teachers">
             <div className="text-center">
-              <div className="text-3xl font-bold text-warning" data-testid="total-teachers">
+              <div className="text-3xl font-bold text-yellow-600" data-testid="total-teachers">
                 {stats.totalTeachers}
               </div>
               <div className="text-sm text-gray-600 mt-1">Total Teachers</div>
             </div>
-          </Card>
+          </div>
         </div>
 
         {/* Schools Section */}
-        <Card title="Schools Management">
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6">
+          <div className="mb-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-2">Schools Management</h3>
+          </div>
+          
           <div className="flex justify-between items-center mb-6">
             <div>
               <h3 className="text-lg font-medium text-gray-900">All Schools</h3>
               <p className="text-sm text-gray-600">Manage and monitor registered schools</p>
             </div>
-            <Button
+            <button
               onClick={handleNewSchool}
-              testId="add-school-btn"
+              data-testid="add-school-btn"
+              className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
             >
               Add New School
-            </Button>
+            </button>
           </div>
 
           <Table
@@ -158,15 +162,16 @@ export default function SuperadminDashboard() {
           {schools.length === 0 && (
             <div className="text-center py-12">
               <div className="text-gray-500 mb-4">No schools registered yet</div>
-              <Button
+              <button
                 onClick={handleNewSchool}
-                testId="add-first-school-btn"
+                data-testid="add-first-school-btn"
+                className="px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Register First School
-              </Button>
+              </button>
             </div>
           )}
-        </Card>
+        </div>
       </div>
     </div>
   );

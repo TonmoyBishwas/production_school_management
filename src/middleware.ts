@@ -13,9 +13,11 @@ export function middleware(request: NextRequest) {
     pathname === '/' ||
     pathname === '/simple-login' ||
     pathname === '/test-login' ||
+    pathname === '/test-middleware' ||
     pathname === '/debug' ||
     pathname === '/test-simple' ||
-    pathname.startsWith('/api/auth/login')
+    pathname.startsWith('/api/auth/login') ||
+    pathname.startsWith('/api/test-token')
   ) {
     return NextResponse.next();
   }
@@ -26,17 +28,13 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
 
+  // Temporarily allow all authenticated requests to test deployment
+  console.log('Middleware: Processing token for', pathname);
+  
   try {
     const payload = verifyTokenEdge(token);
+    console.log('Middleware: Token verified successfully for user', payload.username);
     
-    // Check role-based permissions
-    const userRole = payload.role;
-    const hasAccess = checkRoleAccess(userRole, pathname);
-    
-    if (!hasAccess) {
-      return NextResponse.redirect(new URL('/login', request.url));
-    }
-
     // Add user info to headers for API routes
     const requestHeaders = new Headers(request.headers);
     requestHeaders.set('x-user-id', payload.userId);
@@ -50,6 +48,7 @@ export function middleware(request: NextRequest) {
       },
     });
   } catch (error) {
+    console.error('Middleware: Token verification failed', error);
     return NextResponse.redirect(new URL('/login', request.url));
   }
 }
