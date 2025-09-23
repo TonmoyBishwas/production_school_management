@@ -26,7 +26,7 @@ export default function DebugAuth() {
         data: data,
         headers: Object.fromEntries(response.headers.entries())
       });
-    } catch (error) {
+    } catch (error: any) {
       setResult({ error: error.message });
     }
     setLoading(false);
@@ -41,7 +41,7 @@ export default function DebugAuth() {
         status: response.status,
         data: data 
       });
-    } catch (error) {
+    } catch (error: any) {
       setResult({ error: error.message });
     }
     setLoading(false);
@@ -89,7 +89,7 @@ export default function DebugAuth() {
         status: response.status,
         data: data 
       });
-    } catch (error) {
+    } catch (error: any) {
       setResult({ error: error.message });
     }
     setLoading(false);
