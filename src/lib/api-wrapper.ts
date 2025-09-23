@@ -16,15 +16,15 @@ export interface ApiRouteConfig {
   cache?: {
     enabled: boolean;
     ttl?: number;
-    keyGenerator?: (request: NextRequest) => string;
+    keyGenerator?: (request: Request) => string;
   };
 }
 
 export function withApiWrapper(
-  handler: (request: NextRequest, context: any) => Promise<NextResponse>,
+  handler: (request: Request, context: any) => Promise<NextResponse>,
   config: ApiRouteConfig = {}
 ) {
-  return asyncHandler(async (request: NextRequest) => {
+  return asyncHandler(async (request: Request) => {
     const timer = PerformanceMonitor.startTimer(`api:${request.url}`);
     
     try {
@@ -35,8 +35,7 @@ export function withApiWrapper(
                           'unknown';
         checkRateLimit(
           identifier, 
-          config.rateLimit.max, 
-          config.rateLimit.windowMs
+          config.rateLimit.max
         );
       }
 

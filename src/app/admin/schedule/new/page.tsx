@@ -464,7 +464,7 @@ export default function CreateSchedulePage() {
                 testId="start-time-input"
                 placeholder="Select start time"
                 warning={scheduleData.startTime && scheduleData.endTime ? 
-                  getTimeConflictReason(scheduleData.startTime, scheduleData.endTime) : undefined}
+                  getTimeConflictReason(scheduleData.startTime, scheduleData.endTime) || undefined : undefined}
               />
 
               <TimeInput
@@ -479,7 +479,7 @@ export default function CreateSchedulePage() {
                 testId="end-time-input"
                 placeholder="Select end time"
                 warning={scheduleData.startTime && scheduleData.endTime ? 
-                  getTimeConflictReason(scheduleData.startTime, scheduleData.endTime) : undefined}
+                  getTimeConflictReason(scheduleData.startTime, scheduleData.endTime) || undefined : undefined}
               />
 
               <Select

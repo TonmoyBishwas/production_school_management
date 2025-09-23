@@ -43,7 +43,7 @@ export async function POST() {
     console.error('Database setup error:', error);
     return NextResponse.json({ 
       success: false, 
-      error: error.message 
+      error: error instanceof Error ? error.message : 'Unknown error' 
     }, { status: 500 });
   }
 }

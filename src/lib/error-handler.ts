@@ -244,7 +244,7 @@ export function checkRateLimit(identifier: string, maxRequests: number = config.
 // Cleanup old rate limit records periodically
 setInterval(() => {
   const now = Date.now();
-  for (const [key, record] of rateLimitMap.entries()) {
+  for (const [key, record] of Array.from(rateLimitMap.entries())) {
     if (now > record.resetTime) {
       rateLimitMap.delete(key);
     }
@@ -275,10 +275,10 @@ export interface HealthStatus {
 export async function getHealthStatus(): Promise<HealthStatus> {
   const startTime = Date.now();
   
-  const services = {
-    database: 'up' as const,
-    storage: 'up' as const,
-    auth: 'up' as const
+  const services: HealthStatus['services'] = {
+    database: 'up',
+    storage: 'up',
+    auth: 'up'
   };
 
   // Check database
@@ -287,7 +287,7 @@ export async function getHealthStatus(): Promise<HealthStatus> {
     await prisma.$queryRaw`SELECT 1`;
   } catch (error) {
     services.database = 'down';
-    ErrorLogger.log(new Error('Database health check failed'), { error: error.message });
+    ErrorLogger.log(new Error('Database health check failed'), { error: error instanceof Error ? error.message : 'Unknown error' });
   }
 
   // Check storage (Vercel Blob)

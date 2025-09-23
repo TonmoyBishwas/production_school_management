@@ -15,7 +15,14 @@ export async function GET(request: NextRequest) {
 
     const subjects = await prisma.subject.findMany({
       where: { schoolId },
-      orderBy: { name: 'asc' }
+      orderBy: { name: 'asc' },
+      select: {
+        id: true,
+        name: true,
+        code: true,
+        gradeLevel: true,
+        schoolId: true
+      }
     });
 
     // Get teachers who teach these subjects
@@ -40,7 +47,7 @@ export async function GET(request: NextRequest) {
         description: `Grade ${subject.gradeLevel} subject`, // Basic description
         teachers: subjectTeachers,
         teacherCount: subjectTeachers.length,
-        createdAt: subject.createdAt?.toISOString().split('T')[0] || 'N/A'
+        createdAt: 'N/A' // Subject model doesn't have createdAt field
       };
     }));
 

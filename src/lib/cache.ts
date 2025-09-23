@@ -25,7 +25,9 @@ class InMemoryCache {
     // Remove oldest entries if cache is full
     if (this.cache.size >= this.maxSize) {
       const oldestKey = this.cache.keys().next().value;
-      this.cache.delete(oldestKey);
+      if (oldestKey !== undefined) {
+        this.cache.delete(oldestKey);
+      }
     }
 
     this.cache.set(key, {
@@ -81,7 +83,7 @@ class InMemoryCache {
     const now = Date.now();
     const toDelete: string[] = [];
 
-    for (const [key, entry] of this.cache.entries()) {
+    for (const [key, entry] of Array.from(this.cache.entries())) {
       if (now - entry.timestamp > entry.ttl) {
         toDelete.push(key);
       }
@@ -257,7 +259,9 @@ export class ImageCache {
     // Limit cache size
     if (this.cache.size >= 100) {
       const oldestKey = this.cache.keys().next().value;
-      this.cache.delete(oldestKey);
+      if (oldestKey !== undefined) {
+        this.cache.delete(oldestKey);
+      }
     }
 
     this.cache.set(url, {
@@ -321,7 +325,7 @@ export class PerformanceMonitor {
   static getAllMetrics() {
     const result: Record<string, any> = {};
     
-    for (const [operation, _] of this.metrics) {
+    for (const [operation, _] of Array.from(this.metrics)) {
       result[operation] = this.getMetrics(operation);
     }
     

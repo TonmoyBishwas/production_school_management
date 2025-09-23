@@ -182,6 +182,7 @@ export async function POST(request: NextRequest) {
           return tx.studentPhoto.create({
             data: {
               studentId: student.id,
+              schoolId: student.schoolId,
               photoPath: path.join('storage', school.name, 'Students', folderName, filename),
               photoNumber: index + 1
             }

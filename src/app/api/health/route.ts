@@ -4,7 +4,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getHealthStatus, ErrorLogger, asyncHandler } from '@/lib/error-handler';
 
-export const GET = asyncHandler(async (request: NextRequest) => {
+export const GET = asyncHandler(async (request: Request) => {
   const healthStatus = await getHealthStatus();
   
   // Log health check
@@ -20,7 +20,7 @@ export const GET = asyncHandler(async (request: NextRequest) => {
 });
 
 // Simple ping endpoint
-export const POST = asyncHandler(async (request: NextRequest) => {
+export const POST = asyncHandler(async (request: Request) => {
   return NextResponse.json({
     pong: true,
     timestamp: new Date().toISOString(),

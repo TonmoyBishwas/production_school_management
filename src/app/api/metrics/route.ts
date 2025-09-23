@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { appCache, PerformanceMonitor } from '@/lib/cache';
 import { asyncHandler, AuthorizationError } from '@/lib/error-handler';
 
-export const GET = asyncHandler(async (request: NextRequest) => {
+export const GET = asyncHandler(async (request: Request) => {
   const userRole = request.headers.get('x-user-role');
   
   // Only superadmin can access metrics
@@ -44,7 +44,7 @@ export const GET = asyncHandler(async (request: NextRequest) => {
 });
 
 // Clear cache endpoint
-export const DELETE = asyncHandler(async (request: NextRequest) => {
+export const DELETE = asyncHandler(async (request: Request) => {
   const userRole = request.headers.get('x-user-role');
   
   if (userRole !== 'superadmin') {
