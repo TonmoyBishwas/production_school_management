@@ -1,4 +1,6 @@
 // Health Check API Endpoint
+
+export const dynamic = 'force-dynamic';
 // Provides system health status for monitoring
 
 import { NextRequest, NextResponse } from 'next/server';

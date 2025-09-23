@@ -1,4 +1,6 @@
 // Vercel Cron Job for Automated Training Data Sync
+
+export const dynamic = 'force-dynamic';
 // Runs daily at 2 AM to sync images for face recognition
 
 import { NextRequest, NextResponse } from 'next/server';
