@@ -6,8 +6,8 @@ Copy these variables to Vercel Dashboard -> Settings -> Environment Variables:
 
 ### **Database Configuration**
 ```
-DATABASE_URL=postgresql://postgres:[YOUR_SUPABASE_PASSWORD]@db.bhbvqmsjnotzncblicjq.supabase.co:5432/postgres
-DATABASE_DIRECT_URL=postgresql://postgres:[YOUR_SUPABASE_PASSWORD]@db.bhbvqmsjnotzncblicjq.supabase.co:5432/postgres
+DATABASE_URL=postgresql://postgres:ForgetSecure12345l@db.bhbvqmsjnotzncblicjq.supabase.co:5432/postgres
+DATABASE_DIRECT_URL=postgresql://postgres:ForgetSecure12345l@db.bhbvqmsjnotzncblicjq.supabase.co:5432/postgres
 ```
 
 ### **Security Secrets** (✅ Generated)
@@ -26,7 +26,7 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzd
 
 ### **Application Configuration**
 ```
-NEXTAUTH_URL=https://your-app-name.vercel.app
+NEXTAUTH_URL=https://production-school-management.vercel.app
 NODE_ENV=production
 APP_NAME=School Management System
 APP_VERSION=1.0.0
