@@ -17,8 +17,8 @@ export async function POST() {
     });
 
     if (!existingSuperadmin) {
-      const bcrypt = require('bcryptjs');
-      const hashedPassword = await bcrypt.hash('super123', 10);
+      const { hashPassword } = await import('@/lib/auth-server');
+      const hashedPassword = hashPassword('super123');
       
       await prisma.user.create({
         data: {

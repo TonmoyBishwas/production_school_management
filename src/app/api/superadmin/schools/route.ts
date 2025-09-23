@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/db';
-import { hashPassword, generateSecurePassword } from '@/lib/auth';
+import { hashPassword, generateSecurePassword } from '@/lib/auth-server';
 import { formatDate } from '@/lib/utils';
 import fs from 'fs/promises';
 import path from 'path';
