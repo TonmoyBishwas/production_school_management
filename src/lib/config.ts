@@ -58,59 +58,64 @@ interface Config {
 }
 
 function validateEnvironment(): Config {
-  // Required environment variables
-  const requiredVars = [
-    'DATABASE_URL',
-    'JWT_SECRET',
-    'NEXTAUTH_SECRET',
-    'NEXTAUTH_URL'
-  ];
-  
-  const missing = requiredVars.filter(varName => !process.env[varName]);
-  
-  if (missing.length > 0) {
-    throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
-  }
-  
-  // Validate JWT secret strength
-  if (process.env.JWT_SECRET!.length < 32) {
-    throw new Error('JWT_SECRET must be at least 32 characters long');
-  }
-  
-  if (process.env.NEXTAUTH_SECRET!.length < 32) {
-    throw new Error('NEXTAUTH_SECRET must be at least 32 characters long');
-  }
-  
-  // Validate production environment
-  if (process.env.NODE_ENV === 'production') {
-    const prodSecrets = ['JWT_SECRET', 'NEXTAUTH_SECRET'];
-    const weakSecrets = prodSecrets.filter(secret => 
-      process.env[secret]?.includes('local-dev') || 
-      process.env[secret]?.includes('change-in-production')
-    );
-    
-    if (weakSecrets.length > 0) {
-      throw new Error(`Production environment detected with weak secrets: ${weakSecrets.join(', ')}`);
+  // Only validate environment variables on the server-side
+  if (typeof window === 'undefined') {
+    // Required environment variables
+    const requiredVars = [
+      'DATABASE_URL',
+      'JWT_SECRET',
+      'NEXTAUTH_SECRET',
+      'NEXTAUTH_URL'
+    ];
+
+    const missing = requiredVars.filter(varName => !process.env[varName]);
+
+    if (missing.length > 0) {
+      throw new Error(`Missing required environment variables: ${missing.join(', ')}`);
     }
-    
-    if (!process.env.VERCEL_BLOB_READ_WRITE_TOKEN) {
-      console.warn('Warning: VERCEL_BLOB_READ_WRITE_TOKEN not set. File uploads will fail.');
+  }
+  
+  // Validate JWT secret strength (server-side only)
+  if (typeof window === 'undefined' && process.env.JWT_SECRET) {
+    if (process.env.JWT_SECRET.length < 32) {
+      throw new Error('JWT_SECRET must be at least 32 characters long');
+    }
+
+    if (process.env.NEXTAUTH_SECRET && process.env.NEXTAUTH_SECRET.length < 32) {
+      throw new Error('NEXTAUTH_SECRET must be at least 32 characters long');
+    }
+
+    // Validate production environment
+    if (process.env.NODE_ENV === 'production') {
+      const prodSecrets = ['JWT_SECRET', 'NEXTAUTH_SECRET'];
+      const weakSecrets = prodSecrets.filter(secret =>
+        process.env[secret]?.includes('local-dev') ||
+        process.env[secret]?.includes('change-in-production')
+      );
+
+      if (weakSecrets.length > 0) {
+        throw new Error(`Production environment detected with weak secrets: ${weakSecrets.join(', ')}`);
+      }
+
+      if (!process.env.VERCEL_BLOB_READ_WRITE_TOKEN) {
+        console.warn('Warning: VERCEL_BLOB_READ_WRITE_TOKEN not set. File uploads will fail.');
+      }
     }
   }
   
   return {
     database: {
-      url: process.env.DATABASE_URL!,
+      url: process.env.DATABASE_URL || '',
       directUrl: process.env.DATABASE_DIRECT_URL,
       shadowUrl: process.env.SHADOW_DATABASE_URL,
     },
     jwt: {
-      secret: process.env.JWT_SECRET!,
+      secret: process.env.JWT_SECRET || '',
       expiresIn: process.env.JWT_EXPIRES_IN || '8h',
     },
     nextAuth: {
-      secret: process.env.NEXTAUTH_SECRET!,
-      url: process.env.NEXTAUTH_URL!,
+      secret: process.env.NEXTAUTH_SECRET || '',
+      url: process.env.NEXTAUTH_URL || '',
     },
     bcrypt: {
       rounds: parseInt(process.env.BCRYPT_ROUNDS || '12'),
