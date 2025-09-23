@@ -3,9 +3,7 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Navbar from '@/components/Navbar';
-import Card from '@/components/Card';
-import Button from '@/components/Button';
-import Input from '@/components/Input';
+// Removed custom components - using standard HTML instead
 
 interface NewSchoolData {
   name: string;
@@ -77,7 +75,8 @@ export default function NewSchoolPage() {
         <Navbar user={user} navItems={navItems} />
         
         <div className="max-w-2xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-          <Card title="School Created Successfully" testId="success-card">
+          <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6" data-testid="success-card">
+            <h2 className="text-xl font-semibold text-gray-900 mb-4">School Created Successfully</h2>
             <div className="text-center mb-6">
               <div className="text-green-600 text-6xl mb-4">✓</div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">
@@ -111,23 +110,22 @@ export default function NewSchoolPage() {
             </div>
 
             <div className="flex space-x-4">
-              <Button
+              <button
                 onClick={handleBackToDashboard}
-                testId="back-to-dashboard-btn"
-                className="flex-1"
+                data-testid="back-to-dashboard-btn"
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
               >
                 Back to Dashboard
-              </Button>
-              <Button
+              </button>
+              <button
                 onClick={() => setSuccessData(null)}
-                variant="secondary"
-                testId="create-another-btn"
-                className="flex-1"
+                data-testid="create-another-btn"
+                className="flex-1 px-4 py-2 bg-gray-600 text-white rounded-md font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
               >
                 Create Another School
-              </Button>
+              </button>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     );
@@ -143,7 +141,7 @@ export default function NewSchoolPage() {
           <p className="text-gray-600 mt-2">Create a new school with admin credentials</p>
         </div>
 
-        <Card testId="new-school-form">
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm p-6" data-testid="new-school-form">
           <form onSubmit={handleSubmit} className="space-y-6">
             {error && (
               <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded" data-testid="error-message">
@@ -151,64 +149,75 @@ export default function NewSchoolPage() {
               </div>
             )}
 
-            <Input
-              label="School Name"
-              type="text"
-              value={formData.name}
-              onChange={(value) => setFormData({ ...formData, name: value })}
-              placeholder="Enter school name"
-              required
-              testId="school-name-input"
-            />
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">School Name *</label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                placeholder="Enter school name"
+                required
+                data-testid="school-name-input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
 
-            <Input
-              label="Address"
-              type="text"
-              value={formData.address}
-              onChange={(value) => setFormData({ ...formData, address: value })}
-              placeholder="Enter school address"
-              testId="school-address-input"
-            />
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Address</label>
+              <input
+                type="text"
+                value={formData.address}
+                onChange={(e) => setFormData({ ...formData, address: e.target.value })}
+                placeholder="Enter school address"
+                data-testid="school-address-input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
 
-            <Input
-              label="Phone Number"
-              type="tel"
-              value={formData.phone}
-              onChange={(value) => setFormData({ ...formData, phone: value })}
-              placeholder="Enter phone number"
-              testId="school-phone-input"
-            />
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Phone Number</label>
+              <input
+                type="tel"
+                value={formData.phone}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                placeholder="Enter phone number"
+                data-testid="school-phone-input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
 
-            <Input
-              label="Email"
-              type="email"
-              value={formData.email}
-              onChange={(value) => setFormData({ ...formData, email: value })}
-              placeholder="Enter email address"
-              testId="school-email-input"
-            />
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700">Email</label>
+              <input
+                type="email"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                placeholder="Enter email address"
+                data-testid="school-email-input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
 
             <div className="flex space-x-4">
-              <Button
+              <button
                 type="button"
-                variant="secondary"
                 onClick={handleBackToDashboard}
-                testId="cancel-btn"
-                className="flex-1"
+                data-testid="cancel-btn"
+                className="flex-1 px-4 py-2 bg-gray-600 text-white rounded-md font-medium hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
               >
                 Cancel
-              </Button>
-              <Button
+              </button>
+              <button
                 type="submit"
-                loading={loading}
-                testId="create-school-btn"
-                className="flex-1"
+                disabled={loading}
+                data-testid="create-school-btn"
+                className="flex-1 px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Create School
-              </Button>
+                {loading ? 'Creating...' : 'Create School'}
+              </button>
             </div>
           </form>
-        </Card>
+        </div>
       </div>
     </div>
   );
