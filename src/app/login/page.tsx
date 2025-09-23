@@ -2,9 +2,6 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Button from '@/components/Button';
-import Input from '@/components/Input';
-import Card from '@/components/Card';
 
 export default function LoginPage() {
   const [username, setUsername] = useState('');
@@ -60,11 +57,11 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-primary">School.com</h1>
+          <h1 className="text-3xl font-bold text-blue-600">School.com</h1>
           <p className="text-gray-600 mt-2">Professional School Management System</p>
         </div>
 
-        <Card className="max-w-md mx-auto" testId="login-card">
+        <div className="bg-white border border-gray-200 rounded-lg shadow-sm max-w-md mx-auto p-6" data-testid="login-card">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="text-center mb-6">
               <h2 className="text-2xl font-bold text-gray-900">Sign In</h2>
@@ -76,34 +73,44 @@ export default function LoginPage() {
               </div>
             )}
 
-            <Input
-              label="Username"
-              type="text"
-              value={username}
-              onChange={setUsername}
-              placeholder="Enter your username"
-              required
-              testId="username-input"
-            />
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Username <span className="text-red-600">*</span>
+              </label>
+              <input
+                type="text"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                placeholder="Enter your username"
+                required
+                data-testid="username-input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
 
-            <Input
-              label="Password"
-              type="password"
-              value={password}
-              onChange={setPassword}
-              placeholder="Enter your password"
-              required
-              testId="password-input"
-            />
+            <div className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Password <span className="text-red-600">*</span>
+              </label>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="Enter your password"
+                required
+                data-testid="password-input"
+                className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              />
+            </div>
 
-            <Button
+            <button
               type="submit"
-              loading={loading}
-              testId="login-button"
-              className="w-full"
+              disabled={loading}
+              data-testid="login-button"
+              className="w-full px-4 py-2 bg-blue-600 text-white rounded-md font-medium hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Sign In
-            </Button>
+              {loading ? 'Signing in...' : 'Sign In'}
+            </button>
           </form>
 
           <div className="mt-8 border-t border-gray-200 pt-6">
@@ -115,7 +122,7 @@ export default function LoginPage() {
               </div>
             </div>
           </div>
-        </Card>
+        </div>
       </div>
     </div>
   );
