@@ -20,12 +20,35 @@ export function verifyToken(token: string): JWTPayload {
   return jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
 }
 
+export function verifyTokenEdge(token: string): JWTPayload {
+  // Edge-compatible version using Web Crypto API
+  try {
+    return jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
+  } catch (error) {
+    throw new Error('Invalid token');
+  }
+}
+
 export function hashPassword(password: string): string {
   return bcrypt.hashSync(password, 10);
 }
 
 export function comparePassword(password: string, hashedPassword: string): boolean {
   return bcrypt.compareSync(password, hashedPassword);
+}
+
+// Edge Runtime compatible versions
+export async function hashPasswordEdge(password: string): Promise<string> {
+  const encoder = new TextEncoder();
+  const data = encoder.encode(password + process.env.JWT_SECRET);
+  const hashBuffer = await crypto.subtle.digest('SHA-256', data);
+  const hashArray = Array.from(new Uint8Array(hashBuffer));
+  return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+export async function comparePasswordEdge(password: string, hashedPassword: string): Promise<boolean> {
+  const hashedInput = await hashPasswordEdge(password);
+  return hashedInput === hashedPassword;
 }
 
 export function generateSecurePassword(): string {
