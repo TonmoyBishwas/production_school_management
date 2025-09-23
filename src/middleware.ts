@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { verifyToken, ROLE_PERMISSIONS } from './lib/auth';
+import { verifyTokenEdge, ROLE_PERMISSIONS } from './lib/auth';
 
 export function middleware(request: NextRequest) {
   // Skip middleware for static files and API routes that don't need auth
@@ -23,14 +23,14 @@ export function middleware(request: NextRequest) {
   }
 
   try {
-    const payload = verifyToken(token);
+    const payload = verifyTokenEdge(token);
     
     // Check role-based permissions
     const userRole = payload.role;
     const hasAccess = checkRoleAccess(userRole, pathname);
     
     if (!hasAccess) {
-      return NextResponse.redirect(new URL('/unauthorized', request.url));
+      return NextResponse.redirect(new URL('/login', request.url));
     }
 
     // Add user info to headers for API routes
