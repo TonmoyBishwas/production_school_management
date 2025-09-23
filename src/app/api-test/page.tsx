@@ -27,9 +27,9 @@ export default function ApiTest() {
         localStorage.setItem('token', data.token);
       }
       
-      setResults(prev => ({ ...prev, login: { status: response.status, data } }));
-    } catch (error) {
-      setResults(prev => ({ ...prev, login: { error: error.message } }));
+      setResults((prev: any) => ({ ...prev, login: { status: response.status, data } }));
+    } catch (error: any) {
+      setResults((prev: any) => ({ ...prev, login: { error: error.message } }));
     }
     setLoading(false);
   };
@@ -54,9 +54,9 @@ export default function ApiTest() {
       });
       
       const data = await response.json();
-      setResults(prev => ({ ...prev, schoolCreation: { status: response.status, data } }));
-    } catch (error) {
-      setResults(prev => ({ ...prev, schoolCreation: { error: error.message } }));
+      setResults((prev: any) => ({ ...prev, schoolCreation: { status: response.status, data } }));
+    } catch (error: any) {
+      setResults((prev: any) => ({ ...prev, schoolCreation: { error: error.message } }));
     }
     setLoading(false);
   };
@@ -66,9 +66,9 @@ export default function ApiTest() {
     try {
       const response = await fetch('/api/test-db');
       const data = await response.json();
-      setResults(prev => ({ ...prev, database: { status: response.status, data } }));
-    } catch (error) {
-      setResults(prev => ({ ...prev, database: { error: error.message } }));
+      setResults((prev: any) => ({ ...prev, database: { status: response.status, data } }));
+    } catch (error: any) {
+      setResults((prev: any) => ({ ...prev, database: { error: error.message } }));
     }
     setLoading(false);
   };
@@ -78,45 +78,61 @@ export default function ApiTest() {
     try {
       const response = await fetch('/api/test-env');
       const data = await response.json();
-      setResults(prev => ({ ...prev, environment: { status: response.status, data } }));
-    } catch (error) {
-      setResults(prev => ({ ...prev, environment: { error: error.message } }));
+      setResults((prev: any) => ({ ...prev, environment: { status: response.status, data } }));
+    } catch (error: any) {
+      setResults((prev: any) => ({ ...prev, environment: { error: error.message } }));
     }
     setLoading(false);
   };
 
   return (
-    <div style={{ padding: '20px', fontFamily: 'monospace' }}>
-      <h1>API Testing Page</h1>
-      <p>Test the APIs directly to identify issues</p>
+    <div className="p-5 font-mono">
+      <h1 className="text-2xl font-bold mb-4">API Testing Page</h1>
+      <p className="mb-4">Test the APIs directly to identify issues</p>
       
-      <div style={{ marginBottom: '20px' }}>
-        <button onClick={testLogin} disabled={loading} style={{ marginRight: '10px', padding: '10px', backgroundColor: '#007bff', color: 'white', border: 'none', borderRadius: '4px' }}>
+      <div className="mb-5 space-x-2">
+        <button 
+          onClick={testLogin} 
+          disabled={loading}
+          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 disabled:opacity-50"
+        >
           Test Login
         </button>
-        <button onClick={testSchoolCreation} disabled={loading} style={{ marginRight: '10px', padding: '10px', backgroundColor: '#28a745', color: 'white', border: 'none', borderRadius: '4px' }}>
+        <button 
+          onClick={testSchoolCreation} 
+          disabled={loading}
+          className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+        >
           Test School Creation
         </button>
-        <button onClick={testDbConnection} disabled={loading} style={{ marginRight: '10px', padding: '10px', backgroundColor: '#ffc107', color: 'black', border: 'none', borderRadius: '4px' }}>
+        <button 
+          onClick={testDbConnection} 
+          disabled={loading}
+          className="px-4 py-2 bg-yellow-600 text-white rounded hover:bg-yellow-700 disabled:opacity-50"
+        >
           Test Database
         </button>
-        <button onClick={testEnvVars} disabled={loading} style={{ padding: '10px', backgroundColor: '#6f42c1', color: 'white', border: 'none', borderRadius: '4px' }}>
+        <button 
+          onClick={testEnvVars} 
+          disabled={loading}
+          className="px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700 disabled:opacity-50"
+        >
           Test Environment
         </button>
       </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && <p className="text-gray-600">Loading...</p>}
 
-      <div style={{ marginTop: '20px' }}>
-        <h2>Results:</h2>
-        <pre style={{ background: '#f8f9fa', padding: '15px', border: '1px solid #dee2e6', borderRadius: '4px', overflow: 'auto' }}>
+      <div className="mt-5">
+        <h2 className="text-xl font-semibold mb-2">Results:</h2>
+        <pre className="bg-gray-100 p-4 border rounded overflow-auto text-sm">
           {JSON.stringify(results, null, 2)}
         </pre>
       </div>
 
-      <div style={{ marginTop: '20px', padding: '15px', background: '#e9ecef', borderRadius: '4px' }}>
-        <h3>Instructions:</h3>
-        <ol>
+      <div className="mt-5 p-4 bg-gray-200 rounded">
+        <h3 className="text-lg font-semibold mb-2">Instructions:</h3>
+        <ol className="list-decimal list-inside space-y-1">
           <li>Click "Test Login" first to get authentication token</li>
           <li>If login succeeds, click "Test School Creation" to see exact error</li>
           <li>Click "Test Database" to verify database connectivity</li>
