@@ -10,7 +10,9 @@
     "db:generate": "prisma generate",
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
-    "postinstall": "prisma generate"
+    "postinstall": "prisma generate",
+    "sync-training-data": "node scripts/sync-training-data.js",
+    "face-recognition-prep": "npm run sync-training-data && echo 'Training data ready for ML model training'"
   },
   "dependencies": {
     "@prisma/client": "^5.19.1",
