@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
+export const maxDuration = 60;
 import { prisma } from '@/lib/db';
 import { hashPassword, generateSecurePassword } from '@/lib/auth-server';
 import { formatDate } from '@/lib/utils';
@@ -146,8 +147,17 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Error creating school:', error);
+    console.error('Error details:', {
+      name: error?.name,
+      message: error?.message,
+      stack: error?.stack,
+      cause: error?.cause
+    });
     return NextResponse.json(
-      { message: 'Internal server error' },
+      { 
+        message: 'Internal server error',
+        error: process.env.NODE_ENV === 'development' ? error?.message : undefined
+      },
       { status: 500 }
     );
   }
