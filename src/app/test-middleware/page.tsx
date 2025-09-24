@@ -11,13 +11,13 @@ export default function TestMiddleware() {
     setResult('Testing /superadmin access...');
 
     try {
-      const token = localStorage.getItem('token');
+      const token = typeof window !== 'undefined' ? localStorage.getItem('token') : null;
       console.log('Using token:', token);
 
       const response = await fetch('/superadmin', {
         headers: {
           'Authorization': `Bearer ${token}`,
-          'Cookie': document.cookie
+          'Cookie': typeof window !== 'undefined' ? document.cookie : ''
         }
       });
 
@@ -45,8 +45,8 @@ URL: ${response.url}
       <h1>Middleware Test Page</h1>
       
       <div style={{ marginBottom: '20px' }}>
-        <p>Token in localStorage: {localStorage.getItem('token')?.substring(0, 50)}...</p>
-        <p>Cookies: {document.cookie}</p>
+        <p>Token in localStorage: {typeof window !== 'undefined' ? localStorage.getItem('token')?.substring(0, 50) : 'N/A'}...</p>
+        <p>Cookies: {typeof window !== 'undefined' ? document.cookie : 'N/A'}</p>
       </div>
 
       <button
