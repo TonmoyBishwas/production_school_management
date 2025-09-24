@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'nodejs';
 import { prisma } from '@/lib/db';
 import { hashPassword, generateSecurePassword } from '@/lib/auth-server';
 import { formatDate } from '@/lib/utils';
@@ -36,10 +37,10 @@ export async function GET(request: NextRequest) {
     const schoolsWithCounts = schools.map(school => ({
       id: school.id,
       name: school.name,
-      adminUsername: school.admin_username,
+      adminUsername: school.adminUsername,
       totalStudents: school._count.students,
       totalTeachers: school._count.teachers,
-      createdAt: formatDate(school.created_at)
+      createdAt: formatDate(school.createdAt)
     }));
 
     return NextResponse.json({
@@ -95,25 +96,25 @@ export async function POST(request: NextRequest) {
     // Create school
     const school = await prisma.school.create({
       data: {
-        org_id: organization.id,
+        orgId: organization.id,
         name,
         address,
         phone,
         email,
-        admin_username: adminUsername,
-        admin_password_hash: adminPasswordHash
+        adminUsername,
+        adminPasswordHash
       }
     });
 
     // Create admin user
     const adminUser = await prisma.user.create({
       data: {
-        school_id: school.id,
+        schoolId: school.id,
         role: 'admin',
         username: adminUsername,
-        password_hash: adminPasswordHash,
-        first_name: 'School',
-        last_name: 'Administrator',
+        passwordHash: adminPasswordHash,
+        firstName: 'School',
+        lastName: 'Administrator',
         email
       }
     });
