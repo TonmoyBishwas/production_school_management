@@ -54,7 +54,7 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
               {process.env.NODE_ENV === 'development' && (
                 <div className="mt-4 p-3 bg-red-50 rounded-md">
                   <p className="text-xs text-red-800 font-mono">
-                    {error.message}
+                    {error instanceof Error ? error.message : String(error)}
                   </p>
                   {error.digest && (
                     <p className="text-xs text-red-600 mt-1">

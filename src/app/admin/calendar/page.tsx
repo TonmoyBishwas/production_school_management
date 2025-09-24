@@ -75,7 +75,7 @@ export default function CalendarPage() {
       }
     } catch (error: any) {
       console.error('Error fetching events:', error);
-      setError(error.message || 'Network error occurred');
+      setError(error?.message || 'Network error occurred');
     } finally {
       setLoading(false);
     }

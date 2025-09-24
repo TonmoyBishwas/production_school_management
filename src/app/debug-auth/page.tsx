@@ -27,7 +27,7 @@ export default function DebugAuth() {
         headers: Object.fromEntries(response.headers.entries())
       });
     } catch (error: any) {
-      setResult({ error: error.message });
+      setResult({ error: error?.message || 'Unknown error' });
     }
     setLoading(false);
   };
@@ -42,7 +42,7 @@ export default function DebugAuth() {
         data: data 
       });
     } catch (error: any) {
-      setResult({ error: error.message });
+      setResult({ error: error?.message || 'Unknown error' });
     }
     setLoading(false);
   };
@@ -90,7 +90,7 @@ export default function DebugAuth() {
         data: data 
       });
     } catch (error: any) {
-      setResult({ error: error.message });
+      setResult({ error: error?.message || 'Unknown error' });
     }
     setLoading(false);
   };
