@@ -1,6 +1,9 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
+// Force dynamic rendering to prevent build errors with localStorage
+export const dynamic = 'force-dynamic';
 import Navbar from '@/components/Navbar';
 import Table from '@/components/Table';
 
