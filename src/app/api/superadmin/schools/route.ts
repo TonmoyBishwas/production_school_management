@@ -36,10 +36,10 @@ export async function GET(request: NextRequest) {
     const schoolsWithCounts = schools.map(school => ({
       id: school.id,
       name: school.name,
-      adminUsername: school.adminUsername,
+      adminUsername: school.admin_username,
       totalStudents: school._count.students,
       totalTeachers: school._count.teachers,
-      createdAt: formatDate(school.createdAt)
+      createdAt: formatDate(school.created_at)
     }));
 
     return NextResponse.json({
@@ -95,25 +95,25 @@ export async function POST(request: NextRequest) {
     // Create school
     const school = await prisma.school.create({
       data: {
-        orgId: organization.id,
+        org_id: organization.id,
         name,
         address,
         phone,
         email,
-        adminUsername,
-        adminPasswordHash
+        admin_username: adminUsername,
+        admin_password_hash: adminPasswordHash
       }
     });
 
     // Create admin user
     const adminUser = await prisma.user.create({
       data: {
-        schoolId: school.id,
+        school_id: school.id,
         role: 'admin',
         username: adminUsername,
-        passwordHash: adminPasswordHash,
-        firstName: 'School',
-        lastName: 'Administrator',
+        password_hash: adminPasswordHash,
+        first_name: 'School',
+        last_name: 'Administrator',
         email
       }
     });
