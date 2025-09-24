@@ -148,15 +148,15 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Error creating school:', error);
     console.error('Error details:', {
-      name: error?.name,
-      message: error?.message,
-      stack: error?.stack,
-      cause: error?.cause
+      name: (error as any)?.name,
+      message: (error as any)?.message,
+      stack: (error as any)?.stack,
+      cause: (error as any)?.cause
     });
     return NextResponse.json(
       { 
         message: 'Internal server error',
-        error: process.env.NODE_ENV === 'development' ? error?.message : undefined
+        error: process.env.NODE_ENV === 'development' ? (error as any)?.message : undefined
       },
       { status: 500 }
     );
