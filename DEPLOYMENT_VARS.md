@@ -6,8 +6,8 @@ Copy these variables to Vercel Dashboard -> Settings -> Environment Variables:
 
 ### **Database Configuration**
 ```
-DATABASE_URL=postgresql://postgres:ForgetSecure12345l@db.bhbvqmsjnotzncblicjq.supabase.co:5432/postgres
-DATABASE_DIRECT_URL=postgresql://postgres:ForgetSecure12345l@db.bhbvqmsjnotzncblicjq.supabase.co:5432/postgres
+DATABASE_URL=postgresql://postgres:ForgetSecure12345l@db.sdqludvheaqkmticskbq.supabase.co:5432/postgres
+DATABASE_DIRECT_URL=postgresql://postgres:ForgetSecure12345l@db.sdqludvheaqkmticskbq.supabase.co:5432/postgres
 ```
 
 ### **Security Secrets** (✅ Generated)
@@ -20,8 +20,8 @@ CRON_SECRET=enuSCMa4LEBvSJBOQB8C8mZCgfWcUMsyJdNHYIOhk2Q=
 
 ### **Supabase Configuration** (✅ Ready)
 ```
-NEXT_PUBLIC_SUPABASE_URL=https://bhbvqmsjnotzncblicjq.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJoYnZxbXNqbm90em5jYmxpY2pxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg1NDIxMTEsImV4cCI6MjA3NDExODExMX0.Maw3cU7EPq8qTYkvwskrcjt3OWEAJefTzOkAk7XTJmc
+NEXT_PUBLIC_SUPABASE_URL=https://sdqludvheaqkmticskbq.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNkcWx1ZHZoZWFxa210aWNza2JxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTg4NzAxMDEsImV4cCI6MjA3NDQ0NjEwMX0.wHFfaI2j_ZwuhfduQKL8RPgi-f728qfjH67MHMIrv9Q
 ```
 
 ### **Application Configuration**
@@ -90,7 +90,7 @@ URL: https://your-app.vercel.app/login
 ## 📊 Database Information
 
 ### Supabase Project Details
-- **Project ID**: bhbvqmsjnotzncblicjq
+- **Project ID**: sdqludvheaqkmticskbq
 - **Region**: ap-southeast-1
 - **Database**: PostgreSQL 17.6
 - **Status**: ✅ Active and Healthy
